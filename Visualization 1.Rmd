@@ -3,3 +3,118 @@ title: "01_vizualization"
 output: github_document
 ---
 
+```{r}
+library(tidyverse)
+library(ggridges)
+
+```
+
+```{r}
+library(p8105.datasets)
+data("weather_df")
+
+```
+Now we have everything we need!
+
+##Scatter plots!
+
+Create my first scatterplot
+```{r}
+ggplot(weather_df, aes(x = tmin, y = tmax)) +
+  geom_point()
+
+```
+geom_point() = scatterplot
+
+I always like the dataframe first
+```{r}
+ggp_temp_scatterplot =
+weather_df |> 
+  ggplot(aes(x = tmin, y =tmax)) +
+  geom_point()
+```
+If you want to save plots name it and export it in a different way. One base plot and save it in a different way
+Same as 40.
+New approach, same plot
+
+```{r}
+weather_df |> 
+  ggplot(aes(x = tmin, y = tmax))+
+  geom_point()
+```
+
+Make it prettier
+```{r}
+ggp_temp_scatterplot =
+weather_df |> 
+  ggplot(aes(x = tmin, y =tmax, color = name)) +
+  geom_point()
+ggp_temp_scatterplot
+```
+alpha = alpha blending. Just makes points more transparent.
+Add geomsmoothe to create a line through the dataset
+
+See and edit a plot object
+
+```{r}
+weather_plot =
+  weather_df |> 
+  ggplot(aes(x = tmin, y = tmax))
+
+weather_plot + geom_point()
+```
+
+## Advanced scatterplot....
+Start with the same one and make it fancy
+```{r}
+weather_plot =
+  weather_df |> 
+  ggplot(aes(x = tmin, y = tmax, color = name)) +
+  geom_point() + 
+  geom_smooth(se = FALSE)
+weather_plot
+```
+
+What about the 'aes' placement ?
+Although ggplot knows the axes, but it knows that aesthetics is defined in the points.
+Aesthetics defined can be defined here or can change placement
+```{r}
+weather_plot =
+  weather_df |> 
+  ggplot(aes(x = tmin, y = tmax)) +
+  geom_point(aes(color = name)) + 
+  geom_smooth()
+weather_plot
+```
+
+Let's facet some things:
+
+```{r}
+weather_plot =
+  weather_df |> 
+  ggplot(aes(x = tmin, y = tmax, color = name)) +
+  geom_point(alpha = 0.2) + 
+  geom_smooth(se = FALSE, size = 1) +
+  facet_grid(. ~ name)
+weather_plot
+```
+Facet grid
+. = rows (nothing defines rows), don't create rows
+name = define column
+
+If reverse should have rows and not columns. 
+in geompoint want to make the individual points more visible: geompoint and geomsomothe
+can use alspha level to be related to other things
+if you don't map that to a specific variable in the ggplot then set a univeral one in geom point
+
+
+Let's combine some elements and try a new plot.
+
+```{r}
+weather_df |> 
+  ggplot(aes(x=date, y = tmax, color = name)) +
+  geom_point(aes(size = prcp), alpha = 0.5)+
+  geom_smooth(se = FALSE)+
+  facet_grid(. ~ name)
+```
+
