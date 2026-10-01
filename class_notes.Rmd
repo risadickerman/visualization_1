@@ -2,7 +2,7 @@
 title: "Class notes"
 author: "Risa Dickerman"
 date: "2026-10-01"
-output: html_document
+output: github_document
 ---
 
 
@@ -124,4 +124,67 @@ weather_df |>
   geom_point()
 ```
 
+What's a hex plot
 
+```{r}
+weather_df |> 
+  ggplot(aes(x = tmin, y = tmax)) +
+  geom_hex()
+```
+
+## Univariate plots
+Histogram
+```{r}
+weather_df |> 
+  ggplot(aes(x = tmax)) +
+  geom_histogram()
+```
+
+Create histogram with different names
+```{r}
+weather_df |> 
+  ggplot(aes(x = tmax, fill = name)) +
+  geom_histogram()+
+  facet_grid(. ~ name)
+```
+color around edges bc for histogram the color is the edge of the bar. instead do fill to get whole one
+position(dodge)
+Just visual comparison group to group. Reading horizontally is harder than reading otherways. So not the best for facet_grid
+
+#Density plots
+Density plots are great!! (Density = smoothed out histogram)
+
+```{r}
+weather_df |> 
+  ggplot(aes(x = tmax, fill = name)) +
+    geom_density(alpha = 0.3)
+```
+Easier to see what the overlapping peices are. See each one individually and as a group
+Can do color outside or fill but it will cover up. Use alpha to make things transparent
+
+#Boxplots
+
+```{r}
+weather_df |> 
+  ggplot(aes(x = name, y = tmax)) +
+  geom_boxplot()
+```
+
+#Violin plot
+
+```{r}
+weather_df |> 
+  ggplot(aes(x = name, y = tmax)) +
+  geom_violin()
+```
+Violin shows you a little bit more information than boxplots. Sometimes bimodal distribution but won't be able to pick up on it
+
+
+#Ridge plots
+```{r}
+weather_df |> 
+  ggplot(aes(x = tmax, y = name)) +
+  geom_density_ridges()
+```
+Ridge plots - imagine starting with a density, what's showing up here is just the overall density of everything.
+Could stack  or could make the much more exciting ridges. Once overlapping with color. With many data hard to look at everything so it's more useful to separate them out rather than just density plots
