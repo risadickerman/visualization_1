@@ -310,3 +310,34 @@ the overall density of everything. Could stack or could make the much
 more exciting ridges. Once overlapping with color. With many data hard
 to look at everything so it’s more useful to separate them out rather
 than just density plots
+
+## Save some of my plots
+
+``` r
+ggplot_weather = 
+weather_df |> 
+  ggplot(aes(x = date, y = tmax, color = name)) +
+  geom_point(aes(size = prcp), alpha = 0.5)+
+  facet_grid(. ~ name)
+ggsave("images/ggp_weather.pdf", ggplot_weather)
+```
+
+    ## Saving 7 x 5 in image
+
+    ## Warning: Removed 19 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+When saving alot create a image folder
+
+``` r
+weather_df |> 
+  ggplot(aes(x = tmin, y = tmax, color = name)) +
+  geom_point(aes(size = prcp), alpha = 0.5)
+```
+
+    ## Warning: Removed 19 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+![](class_notes_files/figure-gfm/unnamed-chunk-21-1.png)<!-- --> Changes
+behavior when knitting (when put in {}) Ways to control font size and
+how figures look
